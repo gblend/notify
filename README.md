@@ -10,7 +10,9 @@ The installation and running of the project locally:
 * Open project root directory on your terminal: ```cd notify```
 * Run ``composer install``
 * Create ``.env`` file ```cp .env.example .env```
+* Setup the database connection in the ``.env`` file
 * Generate App Key ```php artisan key:generate```
+* Run the migrations ```php artisan migrate```
 * Download RabbitMQ server from: [Here](https://www.rabbitmq.com/download.html) and install it on your machine.
 * Setup up RabbitMQ server configuration ```config/amqp.php``` or use the default setup:
    
