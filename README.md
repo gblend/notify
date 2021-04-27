@@ -12,7 +12,7 @@ The installation and running of the project locally:
 * Create ``.env`` file ```cp .env.example .env```
 * Generate App Key ```php artisan key:generate```
 * Download RabbitMQ server from: [Here](https://www.rabbitmq.com/download.html) and install it on your machine.
-* Setup up RabbitMQ server configuration ```config/amqp.php```:
+* Setup up RabbitMQ server configuration ```config/amqp.php``` or use the default setup:
    
    ````
   'host' => env('MQTT_HOST'),
