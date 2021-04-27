@@ -26,14 +26,17 @@ The installation and running of the project locally:
 * Start the RabbitMQ server
 * Start the local server ```php artisan serve```
 
-## Publishing to a topic
+### Documentation
+* To access the documentation for this project, open this url on your browser: ````local_url:port/docs````
+
+#### Publishing to a topic
 * Using any API testing software e.g Insomnia, Postman etc. visit this endpoint to publish a message ```local_url:port/api/v1/subscribe/{topic}```
       
     Pass the message body by setting the ```body```  as key and the corresponding ```value``` as the message content
     
     Where ```{topic}``` is a string supplied as the topic which the message should be published under.
        
-## Subscribing to a topic
+#### Subscribing to a topic
 * Using any API testing software e.g Insomnia, Postman etc. visit this endpoint to publish a message ```local_url:port/api/v1/publish/{topic}```
       
     Pass the message body by setting the ```url```  as key and the corresponding ```value``` as a valid url endpoint to subscribe with.
