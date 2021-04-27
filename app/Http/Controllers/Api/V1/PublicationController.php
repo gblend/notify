@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class PublicationController extends Controller
 {
+    /**
+     * Publish Message to a Topic
+     *
+     * This endpoint enables a publish to publish message under a specified topic.
+     * @param PublicationRequest $publicationRequest FormRequest validated form request containing the message payload and topic
+     * @return mixed
+     */
     public function publishMessage(PublicationRequest $publicationRequest)
     {
         if ($publicationRequest->validated()) {
@@ -24,6 +31,10 @@ class PublicationController extends Controller
                     'topic' => $topic,
                     'data' => $publicationRequest->body
                 ]);
+                /*
+                 * Publishing of message under a specified topic to the message broker.
+                 *
+                 */
                 $client = new PublishServiceProvider();
                 $isSuccessful = $client->publishMessage($topic, $payload);
                 if ($isSuccessful === true) {

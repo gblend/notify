@@ -9,6 +9,12 @@ use Bschmitt\Amqp\Publisher;
 
 class PublishServiceProvider
 {
+    /**
+     * Publish Message to a Broker
+     * @param $topic string the topic to which the message is published
+     * @param $payload object the message payload
+     * @return bool
+     */
     public function publishMessage($topic, $payload)
     {
         $isSuccessful = true;

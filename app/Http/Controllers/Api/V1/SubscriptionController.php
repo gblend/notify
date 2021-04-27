@@ -6,10 +6,16 @@ use App\Observer\Consume;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SubscriptionRequest;
 use App\Models\Subscription;
-use function MongoDB\BSON\toJSON;
 
 class SubscriptionController extends Controller
 {
+    /**
+     * Subscribe to a Topic
+     *
+     * This endpoint enables a consumer to subscribe to topic
+     * @param SubscriptionRequest $subscriptionRequest FormRequest validated form request containing subscription url and topic
+     * @return mixed
+     */
     public function subscribeToTopic(SubscriptionRequest $subscriptionRequest)
     {
         if ($subscriptionRequest->validated()) {
@@ -20,6 +26,10 @@ class SubscriptionController extends Controller
             ];
             try {
                 Subscription::firstOrCreate($data);
+                /*
+                 * Subscription to a topic in other to receive messages published under this topic by the message broker.
+                 *
+                 */
                 $consumer = new Consume();
                 $response = $consumer->consumeMessage($topic);
                 if ($response) {

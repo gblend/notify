@@ -9,6 +9,11 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Consume
 {
 
+    /**
+     * Subscribe to a Topic & Consume Messages
+     * @param $topic string the topic to which the consumer wants to subscribe to.
+     * @return bool|mixed
+     */
     public function consumeMessage($topic)
     {
         try {
