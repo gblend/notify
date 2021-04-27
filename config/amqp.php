@@ -9,11 +9,11 @@ return [
     'properties' => [
 
         'production' => [
-            'host' => 'localhost',
-            'port' => 5672,
-            'username' => 'guest',
-            'password' => 'guest',
-            'vhost' => '/',
+            'host' => env('MQTT_HOST', 'localhost'),
+            'port' => env('MQTT_PORT', 5672),
+            'username' => env('MQTT_AUTH_USERNAME', 'guest'),
+            'password' => env('MQTT_AUTH_PASSWORD', 'guest'),
+            'vhost' => env('MQTT_VHOST', '/'),
             'ssl_options' => [],
             'connect_options' => [],
             'timeout' => 0,
