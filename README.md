@@ -1,62 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Notify 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Notify** is an HTTP notification system for dispatching messages between publishers and consumers who are subscribed to different topic.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project setup
+The installation and running of the project locally:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Clone this repo
+* Open project root directory on your terminal: ```cd notify```
+* Run ``composer install``
+* Create ``.env`` file ```cp .env.example .env```
+* Generate App Key ```php artisan key:generate```
+* Download RabbitMQ server from: [Here](https://www.rabbitmq.com/download.html) and install it on your machine.
+* Setup up RabbitMQ server configuration ```config/amqp.php```:
+   
+   ````
+  'host' => env('MQTT_HOST'),
+  'port' => env('MQTT_PORT'),
+  'username' => env('MQTT_AUTH_USERNAME'),
+  'password' => env('MQTT_AUTH_PASSWORD'),
+  ````
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Start the RabbitMQ server
+* Start the local server ```php artisan serve```
 
-## Learning Laravel
+## Running Tests
+* Navigate to the project root directory on your terminal and execute the command: ```php artisan test```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Publishing to a topic
+* Using any API testing software e.g Insomnia, Postman etc. visit this endpoint to publish a message ```local_url:port/api/v1/subscribe/{topic}```
+      
+    Pass the message body by setting the ```body```  as key and the corresponding ```value``` as the message content
+    
+    Where ```{topic}``` is a string supplied as the topic which the message should be published under.
+       
+## Subscribing to a topic
+* Using any API testing software e.g Insomnia, Postman etc. visit this endpoint to publish a message ```local_url:port/api/v1/publish/{topic}```
+      
+    Pass the message body by setting the ```url```  as key and the corresponding ```value``` as a valid url endpoint to subscribe with.
+    
+    Where ```{topic}``` is a string supplied as the topic which the consumer wants to subscribe to.
+       
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Technologies Used
+- [Advanced Message Queuing Protocol (AMQP)](https://www.amqp.org/) => The Advanced Message Queuing Protocol is an open standard application layer protocol for message-oriented middleware. The defining features of AMQP are message orientation, queuing, routing, reliability and security. This is the protocol utilized by the message broker used for this project.
+    
+- [RabbitMQ](https://www.rabbitmq.com/) => RabbitMQ is an open-source message-broker software that originally implemented the Advanced Message Queuing Protocol and has since been extended with a plug-in architecture to support Streaming Text Oriented Messaging Protocol, MQ Telemetry Transport, and other protocols.
+ 
+ - [Laravel](https://laravel.com/) => Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller architectural pattern and based on Symfony. Laravel was used to implement the backend service and logic for notify.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
