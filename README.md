@@ -24,9 +24,6 @@ The installation and running of the project locally:
 * Start the RabbitMQ server
 * Start the local server ```php artisan serve```
 
-## Running Tests
-* Navigate to the project root directory on your terminal and execute the command: ```php artisan test```
-
 ## Publishing to a topic
 * Using any API testing software e.g Insomnia, Postman etc. visit this endpoint to publish a message ```local_url:port/api/v1/subscribe/{topic}```
       
