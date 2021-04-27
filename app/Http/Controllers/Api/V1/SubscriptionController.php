@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Observer\Consume;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SubscriptionRequest;
-use App\Http\Resources\Api\V1\SubscriptionResource;
 use App\Models\Subscription;
+use function MongoDB\BSON\toJSON;
 
 class SubscriptionController extends Controller
 {
@@ -18,12 +19,24 @@ class SubscriptionController extends Controller
                 'topic' => $topic,
             ];
             try {
-                $subscription = Subscription::firstOrCreate($data);
-                return response(new SubscriptionResource($subscription));
+                Subscription::firstOrCreate($data);
+                $consumer = new Consume();
+                $response = $consumer->consumeMessage($topic);
+                if ($response) {
+                    return response()->json([
+                        'status' => 'success',
+                        'payload' => $response->body
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => 'Subscription failed. \'' . $topic . '\' is currently unavailable'
+                    ], 400);
+                }
             } catch (\Exception $exception) {
                 return response()->json([
                     'status' => 'failed',
-                    'message' => 'Subscription failed. Please try again'
+                    'message' => 'Subscription operation failed. Please try again' . $exception
                 ], 400);
             }
         }
