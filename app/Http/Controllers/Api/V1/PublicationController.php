@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\PublicationRequest;
 use App\Models\Publication;
+use App\Providers\PublishServiceProvider;
 use Illuminate\Http\Request;
 
 class PublicationController extends Controller
@@ -19,15 +20,29 @@ class PublicationController extends Controller
             ];
             try {
                 $subscription = Publication::firstOrCreate($data);
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Message published successfully',
-                    'data' => $subscription
+                $payload = json_encode([
+                    'topic' => $topic,
+                    'data' => $publicationRequest->body
                 ]);
+                $client = new PublishServiceProvider();
+                $isSuccessful = $client->publishMessage($topic, $payload);
+                if ($isSuccessful === true) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Message published successfully',
+                        'data' => $subscription
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => 'Message publishing failed. Please try again'
+                    ], 400);
+                }
+
             } catch (\Exception $exception) {
                 return response()->json([
                     'status' => 'failed',
-                    'message' => 'publication failed. Please try again'
+                    'message' => 'Something went wrong. Please try again '
                 ], 400);
             }
         }
